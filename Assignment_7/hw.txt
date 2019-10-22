@@ -1,0 +1,13 @@
+2. the "==" is not defined for coords, the comparison 
+3. we cannot keep track of previous portions of the path while simultaneously accessing the new portions of the path without the use of a double parameter
+4a. Order N^3.
+For each i, there is N j, and for each j, there is N k. So for each i, there is N^2 k, and i is run N times so the order will be N^3.
+4b. still Order N^3
+j now runs i times per iteration, meaning it will run 1 + 2 + ... + (N - 1) times total resulting in (N)(N-1)/2 total iterations. Each of these iterations will have N subiterations in the nested for loop with k, so we are again left with order N^3.
+5a. N^2
+in the worst case, we access "result = set1", resulting in N list nodes visited, but this is overridden later
+we then access the for loop, and each call of the contents of the loop with result in N amount of list nodes visited, resulting in order N^2, as the loop is iterated N times
+5b. NlogN
+the sort algorithm has complexity NlogN. the for loop at the end accesses with complexity N, which is less than NlogN
+5c. N
+the loops each call functions with complexity 1, so calling N times results in complexity N
