@@ -1,1 +1,1 @@
-# UCLA-CS-32
+# Computer science course taught by David A. Smallberg.
