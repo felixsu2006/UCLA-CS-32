@@ -1,0 +1,51 @@
+1. KNOWN BUGS:
+	none
+2. BIG-O
+	-findGenomesWithThisDNA() has big-O (H * G * F) where G is the number of genomes in the library
+	everything else seems to satisfy the big-O requirements
+3. find()
+	for the number of children that root has
+		check if any of them hold the value that is equal to the first letter in the given key
+			if so, pass the address to the helper function findHelp and return that value
+
+   findHelp()
+	for the number of children in the given node
+		if exactMatchOnly is false
+			if the size of the given string is 1
+				store in a vector<Valuetype> the values of the root's current child
+				continue
+			if the label of the current child node is equal to the first character in the given string
+				store in a vector<ValueType> the results of a call to findHelp with a substring (omitting the first character of the string) of the string, keeping exactMatchOnly false
+				continue
+			do as said above except change exactMatchOnly to true
+			continue
+		if the label of the current child node is equal to the first character of the given string
+			if the size of the given string is 1
+				store the given child's values
+				break
+			store in a vector<ValueType> the results of a call to findHelp with a substring (omitting the first character of the string) of the string, keeping exactMatchOnly true
+	return all the stored values
+
+   findGenomesWithThisDNA()
+	(1) store in a vector the DNAMatch(es) of the given prefix
+	initialize a vector of bools (all with value true) with the same size as (1)
+	for the number of (1)
+		for the number of genomes in the library
+			if the current DNAMatch in the vector of DNAMatch(es) has the same name as the current genome's name
+				if the DNAMatch would access out of bounds values
+					set the corresponding value in the vector of bools to false
+					break
+				extract the substring of genome as noted by the DNAMatch's position and size
+				for the size of the given string fragment
+					if exactMatchOnly is true and the current characters of the given string and the extracted string are not equal
+						break
+					if they are not equal and exactMatchOnly is false and this is the first occurrence of an inequality
+						if the current number is greater than or equal to min_length, increment the DNAMatch's length
+					if they are not equal and exactMatchOnly is false and this sis the second occurence of an inequality
+						break
+					if the number is greater than or equal to min_length
+						increment the DNAMatch's length
+			if none of the DNAMatch(es) match with a genome from the library, end the loop
+	sort the data by genome name
+	disregard all nonmaximum lengths of each genome, leaving at most one sequence per genome
+	return all the remaining DNAMatch(es)
