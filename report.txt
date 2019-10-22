@@ -1,0 +1,207 @@
+my doubly-linked list has a pointer named head that is the basis for navigating the entire linked list
+each node has two pointers- one pointing to the previous node and one pointing to the next node, as well as an integer that functions as a size counter
+the nodes are organized in ascending order
+the list does not have a dummy node, nor is it circular
+
+PSEUDOCODE:
+subtract:
+	set result equal to s1
+	call the copy constructor by initializing a new Set and setting it equal to s2
+	iterate through the size of s2
+		erase values that exist in both sets
+
+unite:
+	set result equal to s1
+	call the copy constructor by initializing a new Set and setting it equal to s2
+	iterate through the size of s2
+		insert values that don't already exist in s1
+
+constructor:
+	initialize private variables:
+		set head to nullptr and count to 0
+
+copy constructor:
+	initialize private variables:
+		set head to nullptr and count to 0
+	iterate through size of desired list
+		insert values into new linked list
+
+assignment operator:
+	if the two Sets do not refer to the same object:
+		create a temporary Set by calling the copy constructor
+		swap the Sets
+
+destructor:
+	handle special cases for size 0 and 1
+		if 0, return
+		if 1, delete head and return
+	initialize a pointer
+	iterate through linked list such that pointer points to last node
+	iterate backwards through the entire list
+		delete the next node
+	delete head
+
+insert:
+	initialize a node, set it to head
+	if size is 0
+		set head to a new node, increment size and return true
+	if size is 1
+		handle case in which inputted value is same as only value
+		case in which inputted value is smallest
+			create a new node
+			input it before the existing node
+		case in which inputted value is largest
+			create a new node
+			input it after the existing node
+	if the value is less than or equal to the smallest existing data
+		if equal	
+			return false
+		create a new node
+		connect node to list
+	if the value is larger than the smallest existing node
+		find the first data point that is larger than value or the last value
+		if the pointer points to the last node
+			if the value is larger than the data in the last node
+				input node in last slot
+			if the value is less than the data in the last slot
+				input node before last slot
+		if the value is larger than the data the pointer points to
+			input node after the pointer
+	
+erase:
+	if size of list is 0
+		do nothing
+	if size of list is 1
+		if the value is the same as the only value
+			delete
+		else do nothing
+	iterate through the linked list
+		if value equals to any data in the list
+			if the pointer points to the last node
+				set the previous node's next node to null
+				delete the node that is pointed to
+			if the pointer points to the first node
+				set head to the next value
+				set head's previous node to nullptr
+			if the pointer points to neither the first nor the last
+				set proper previous and next pointers
+				delete the node
+
+contains:
+	iterate through the linked list
+		if any data equals to value
+			return true
+		else return false
+
+get:
+	if given value is valid
+		set a pointer to the required node with a loop
+	set the given value to this pointer
+
+swap:
+	initialize a temporary node and integer
+	switch between the Set given in the parameter
+
+TEST CASES:
+	*NOTE*- I did my test cases with integers
+
+	Set s;
+	assert(s.empty());	//test empty
+	
+	assert(s.insert(5));		//test insert on an empty list
+	assert(s.insert(10));		//test insert on a list with one variable
+	assert(s.insert(11));		//test insert with a non-zero-nor-one value
+	assert(s.insert(7));		//test insert with a middle value
+	assert(s.insert(3));		//test insert with a smallest value
+	assert(s.insert(200));		//test insert with a largest value
+	assert(s.insert(133));
+	assert(s.insert(-30));
+	assert(!s.insert(-30));		//test insert on an existing value
+	
+	assert(s.erase(7));			//test erase on a non-first-nor-last value
+	
+	assert(s.erase(-30));		//test erase on first value
+	assert(s.erase(200));		//test erase on last value
+	assert(s.erase(11));		
+	assert(!s.erase(11));		//test erase on a non-existent value
+	
+	assert(s.contains(3));		//testing contains on smallest value
+	assert(!s.contains(-30));	//testing contains on nonexistent value
+	assert(s.contains(133));	//testing contains on largest value
+	assert(s.contains(10));		//testing contains on random value
+	
+	Set c;
+
+	
+	assert(c.insert(1));		
+	assert(c.insert(2));
+	assert(c.erase(1));		//testing erase on set with only two values
+	
+		
+	assert(c.erase(2));		//testing erase on set with only one value
+	assert(c.insert(1));	
+	assert(c.insert(3));
+	int x;
+	assert(c.get(0, x) && x == 1);
+	assert(c.get(1, x) && x == 3);
+	assert(!c.get(3, x) && x == 3);
+	
+	c.swap(s);	//testing swap
+	assert(c.contains(3));
+	assert(c.contains(5));
+	assert(c.contains(10));
+	assert(c.contains(133));
+	assert(s.contains(1));
+	assert(s.contains(3));
+	assert(s.insert(123123));
+	Set b = s;	//testing copy constructor
+	assert(b.contains(1));
+	assert(b.contains(3));
+	assert(b.size() == s.size());
+	
+	Set asd;
+	Set asdasd;
+	asdasd.insert(1);
+	b.insert(2);
+	b = s;	//testing assignment operator on nonempty
+	assert(b.size() == s.size());
+	Set m;
+	m = s;	//testing assignment operator on empty
+	assert(m.contains(1));
+	assert(m.contains(3));
+	assert(m.contains(123123));
+	assert(m.size() == s.size());
+	
+
+	Set s1;
+	s1.insert(2);
+	s1.insert(8);
+	s1.insert(3);
+	s1.insert(9);
+	s1.insert(5);
+	Set s2;
+	s2.insert(6);
+	s2.insert(3);
+	s2.insert(8);
+	s2.insert(5);
+	s2.insert(10);
+	Set s3;
+	unite(s1, s2, s3);	//testing unite
+	
+	subtract(s1, s2, s3);	//testing subtract
+	
+	cout << "next is s1" << endl;
+	
+	unite(s1, s1, s1);	//testing unite with same set
+	cout << "asd" << endl;
+	
+	test();
+	s1.insert(10);
+	s1.insert(11);
+	s1.insert(12);
+	subtract(s1, s1, s1);	//testing subtract with same set
+
+
+	cout << "asd" << endl;
+	
+	cout << "Passed all tests" << endl;
